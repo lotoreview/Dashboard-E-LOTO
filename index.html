@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de Bord de Conformité</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="dashboard">
+        <h1>Tableau de Bord des Conformités et Non-Conformités</h1>
+        <canvas id="conformityChart"></canvas>
+    </div>
+    <div class="tabs">
+        <button class="tablink" onclick="openTab(event, '2024')">2024</button>
+        <button class="tablink" onclick="openTab(event, '2025')">2025</button>
+        <!-- Ajouter plus d'années si nécessaire -->
+      </div>
+      
+      <div id="2024" class="tabcontent">
+        <div class="month-tabs">
+          <button onclick="updateGraph('January')">Janvier</button>
+          <button onclick="updateGraph('February')">Février</button>
+          <!-- Ajouter les autres mois -->
+        </div>
+        <canvas id="myChart"></canvas>
+      </div>
+      
+      <div id="2025" class="tabcontent">
+        <div class="month-tabs">
+          <button onclick="updateGraph('January')">Janvier</button>
+          <button onclick="updateGraph('February')">Février</button>
+          <!-- Ajouter les autres mois -->
+        </div>
+        <canvas id="myChart"></canvas>
+      </div>
+    <!-- Inclusion de Chart.js via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
