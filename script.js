@@ -122,23 +122,28 @@ const data = {
 };
 
 function openTab(evt, year) {
-  // Masquer tous les contenus avec effet
-  let tabContents = document.querySelectorAll('.tabcontent');
+  // Masquer tous les contenus
+  let tabContents = document.querySelectorAll(".tabcontent");
   tabContents.forEach((tab) => {
-    tab.classList.remove("active"); // Retirer la classe active pour masquer l'onglet
+    tab.style.display = "none";  // On cache tous les autres contenus
+    tab.classList.remove("active");  // On retire l'état "actif"
   });
 
-  // Retirer la classe active des boutons années
-  let tabLinks = document.querySelectorAll('.tablink');
+  // Retirer la classe active de tous les boutons
+  let tabLinks = document.querySelectorAll(".tablink");
   tabLinks.forEach((link) => link.classList.remove("active"));
 
-  // Afficher le contenu de l'onglet sélectionné avec transition
-  const selectedTab = document.getElementById(`year-${year}`);
-  selectedTab.classList.add("active");
+  // Ajouter la classe active au bouton de l'année sélectionnée
   evt.currentTarget.classList.add("active");
 
-  // Mettre à jour le graphique pour le mois de janvier par défaut
-  updateGraph("January", year);
+  // Afficher le contenu de l'année sélectionnée
+  const selectedTab = document.getElementById(`year-${year}`);
+  selectedTab.style.display = "block";  // On affiche le contenu de l'onglet
+  setTimeout(() => selectedTab.classList.add("active"), 10);  // Ajout de la classe active après l'affichage
+
+  // Mettre à jour le graphique avec les données du mois sélectionné
+  const month = document.querySelector(`#year-${year} .month-btn.active`)?.textContent || 'January';
+  updateGraph(month, year);
 }
 
 // Fonction pour mettre à jour le graphique en fonction du mois, de l'année et du collègue sélectionné
@@ -291,6 +296,105 @@ function filterByColleague(event) {
 
   // Mettre à jour le graphique en fonction du collègue sélectionné
   updateGraph(month, year, selectedColleague);
+}
+
+function showTotal(evt, year) {
+  // Masquer tous les contenus
+  let tabContents = document.querySelectorAll(".tabcontent");
+  tabContents.forEach((tab) => {
+    tab.style.display = "none";  // Masquer tous les onglets
+    tab.classList.remove("active");  // Retirer l'état "actif"
+  });
+
+  // Retirer la classe active de tous les boutons
+  let tabLinks = document.querySelectorAll(".tablink");
+  tabLinks.forEach((link) => link.classList.remove("active"));
+
+  // Ajouter la classe active au bouton "Total"
+  evt.currentTarget.classList.add("active");
+
+  // Afficher le contenu de l'année sélectionnée
+  const selectedTab = document.getElementById(`year-${year}`);
+  selectedTab.style.display = "block";  // Affichage de l'onglet "Total"
+  setTimeout(() => selectedTab.classList.add("active"), 10);  // Ajouter la classe active
+
+  // Calculer les totaux pour chaque collègue
+  let totalData = [];
+  for (const month in data[year]) {
+    data[year][month].forEach((entry) => {
+      let existingEntry = totalData.find(e => e.name === entry.name);
+      if (existingEntry) {
+        existingEntry.conformity += entry.conformity;
+        existingEntry.nonConformity += entry.nonConformity;
+      } else {
+        totalData.push({ ...entry });
+      }
+    });
+  }
+
+  // Afficher le graphique total
+  renderTotalChart(totalData, year);
+}
+
+function renderTotalChart(data, year) {
+  const canvasId = `myChart${year}`;
+  const ctx = document.getElementById(canvasId).getContext("2d");
+
+  // Détruire le graphique existant s'il y en a un
+  if (year === "2024" && myChart2024) {
+    myChart2024.destroy();
+  } else if (year === "2025" && myChart2025) {
+    myChart2025.destroy();
+  }
+
+  // Créer le graphique avec les données totales
+  const totalChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: data.map(d => d.name),
+      datasets: [
+        {
+          label: '',
+          data: data.map(d => d.conformity),
+          backgroundColor: data.map(() => create3DGradient(ctx, 'rgba(0, 150, 255, 0.9)')),
+          borderColor: '#B0C4DE',
+          borderWidth: 1.5
+        },
+        {
+          label: '',
+          data: data.map(d => d.nonConformity),
+          backgroundColor: data.map(() => create3DGradient(ctx, 'rgba(255, 69, 100, 0.9)')),
+          borderColor: '#F08080',
+          borderWidth: 1.5
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: { stepSize: 1, color: '#B0B0B0' },
+          title: { display: true, text: '', color: '#B0B0B0' }
+        },
+        x: {
+          ticks: { maxRotation: 45, minRotation: 45, color: '#B0B0B0' },
+          title: { display: true, text: '', color: '#B0B0B0' }
+        }
+      },
+      plugins: {
+        legend: { labels: { color: '#B0B0B0' } }
+      }
+    }
+  });
+
+  // Assigner le graphique au bon endroit
+  if (year === "2024") {
+    myChart2024 = totalChart;
+  } else if (year === "2025") {
+    myChart2025 = totalChart;
+  }
 }
 
 // Écouteur d'événements pour redimensionner le graphique lorsque la fenêtre change de taille
