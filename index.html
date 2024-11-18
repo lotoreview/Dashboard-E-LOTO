@@ -1,41 +1,63 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tableau de Bord de Conformité</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div id="dashboard">
-        <h1>Tableau de Bord des Conformités et Non-Conformités</h1>
-        <canvas id="conformityChart"></canvas>
+
+  <h1 class="dashboard-title">Tableau de Bord</h1>
+
+  <div class="tablink-container">
+    <button class="tablink" onclick="openTab(event, '2024')">2024</button>
+    <button class="tablink" onclick="openTab(event, '2025')">2025</button>
+  </div>
+
+  <div id="year-2024" class="tabcontent">
+    <div class="months">
+      <button class="month-btn" onclick="updateGraph('January', '2024')">January</button>
+      <button class="month-btn" onclick="updateGraph('February', '2024')">February</button>
+      <button class="month-btn" onclick="updateGraph('March', '2024')">March</button>
+      <button class="month-btn" onclick="updateGraph('April', '2024')">April</button>
+      <button class="month-btn" onclick="updateGraph('May', '2024')">May</button>
+      <button class="month-btn" onclick="updateGraph('June', '2024')">June</button>
+      <button class="month-btn" onclick="updateGraph('July', '2024')">July</button>
+      <button class="month-btn" onclick="updateGraph('August', '2024')">August</button>
+      <button class="month-btn" onclick="updateGraph('September', '2024')">September</button>
+      <button class="month-btn" onclick="updateGraph('October', '2024')">October</button>
+      <button class="month-btn" onclick="updateGraph('November', '2024')">November</button>
+      <button class="month-btn" onclick="updateGraph('December', '2024')">December</button>
     </div>
-    <div class="tabs">
-        <button class="tablink" onclick="openTab(event, '2024')">2024</button>
-        <button class="tablink" onclick="openTab(event, '2025')">2025</button>
-        <!-- Ajouter plus d'années si nécessaire -->
-      </div>
-      
-      <div id="2024" class="tabcontent">
-        <div class="month-tabs">
-          <button onclick="updateGraph('January')">Janvier</button>
-          <button onclick="updateGraph('February')">Février</button>
-          <!-- Ajouter les autres mois -->
-        </div>
-        <canvas id="myChart"></canvas>
-      </div>
-      
-      <div id="2025" class="tabcontent">
-        <div class="month-tabs">
-          <button onclick="updateGraph('January')">Janvier</button>
-          <button onclick="updateGraph('February')">Février</button>
-          <!-- Ajouter les autres mois -->
-        </div>
-        <canvas id="myChart"></canvas>
-      </div>
-    <!-- Inclusion de Chart.js via CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
-    <script src="script.js"></script>
+    <canvas id="myChart2024"></canvas> <!-- Ajout de style="display:none;" -->
+  </div>
+
+  <div id="year-2025" class="tabcontent">
+    <div class="months">
+      <button class="month-btn" onclick="updateGraph('January', '2025')">January</button>
+      <button class="month-btn" onclick="updateGraph('February', '2025')">February</button>
+    </div>
+    <canvas id="myChart2025"></canvas> <!-- Ajout de style="display:none;" -->
+  </div>
+
+  <div class="filter-container">
+    <label for="colleague-select">Sélectionner:</label>
+    <select class="select-colleague" title="Sélectionner un collègue" onchange="filterByColleague(event)">
+      <option value="all">Tous</option>
+      <option value="MODUN">MODUN</option>
+      <option value="GEHAL">GEHAL</option>
+      <option value="YOBEN">YOBEN</option>
+      <option value="LYVIR">LYVIR</option>
+      <option value="AUCAR">AUCAR</option>
+      <option value="GIFON">GIFON</option>
+      <option value="TYGIO">TYGIO</option>
+      <option value="SIOBR">SIOBR</option>
+      <option value="DEROC">DEROC</option>
+    </select>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
