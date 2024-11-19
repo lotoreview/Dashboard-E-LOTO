@@ -100,22 +100,18 @@ const data = {
       { name: "MTIBO", conformity: 4, nonConformity: 0 },
     ],
     "November": [
-      { name: "Jean", conformity: 6, nonConformity: 1 },
-      { name: "Marie", conformity: 8, nonConformity: 0 },
+
     ],
     "December": [
-      { name: "Jean", conformity: 6, nonConformity: 1 },
-      { name: "Marie", conformity: 8, nonConformity: 0 },
+
     ]
   },
   "2025": {
     "January": [
-      { name: "Paul", conformity: 4, nonConformity: 3 },
-      { name: "Sophie", conformity: 6, nonConformity: 2 },
+
     ],
     "February": [
-      { name: "Paul", conformity: 5, nonConformity: 1 },
-      { name: "Sophie", conformity: 7, nonConformity: 0 },
+
     ]
   }
   
