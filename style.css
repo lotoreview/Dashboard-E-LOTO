@@ -126,7 +126,7 @@ canvas {
   background-color: #1E1E1E;
   width: 100% !important;  /* Assure que le canvas prend toute la largeur disponible */
   height: auto !important; /* Ajuste la hauteur en fonction de la largeur pour garder les proportions */
-  max-height: 400px; /* Limite la hauteur maximale pour éviter que le graphique devienne trop grand */
+  max-height: 300px; /* Limite la hauteur maximale pour éviter que le graphique devienne trop grand */
 }
 
 #myChart2024, #myChart2025 {
